@@ -7,7 +7,7 @@ Version:        %{version}
 Release:        %{release}
 Summary:        Cisco VPN client
 License:        Commercial
-Group:          Utilities
+Group:          Networking/Other
 URL:            http://www.cisco.com/en/US/products/sw/secursw/ps2308/index.html
 Source0:        %{name}-linux-x86_64-%{version}-k9.tar.bz2
 Source1:        %{name}.bash-completion
