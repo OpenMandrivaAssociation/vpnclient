@@ -102,12 +102,7 @@ BUILD_MAX_KERNEL=2.6.23
 EOF
 
 cat > README.urpmi <<EOF
-INRIA RPM specific notes
-
-post-installation
------------------
-Due to a bug in DKMS, you may have to fix your current alias in modprobe.conf
-to be cipsec0, not cipsec1.
+mandriva RPM specific notes
 
 setup
 -----
