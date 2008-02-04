@@ -1,6 +1,6 @@
 %define name    vpnclient
 %define version 4.8.00.0490
-%define release %mkrel 1
+%define release %mkrel 6
 
 Name:           %{name}
 Version:        %{version}
