@@ -1,6 +1,6 @@
 %define name    vpnclient
-%define version 4.8.00.0490
-%define release %mkrel 6
+%define version 4.8.01.0640
+%define release %mkrel 1
 
 Name:           %{name}
 Version:        %{version}
@@ -9,10 +9,16 @@ Summary:        Cisco VPN client
 License:        Commercial
 Group:          Networking/Other
 URL:            http://www.cisco.com/en/US/products/sw/secursw/ps2308/index.html
-Source0:        %{name}-linux-x86_64-%{version}-k9.tar.bz2
+# http://projects.tuxx-home.at/?id=cisco_vpn_client
+Source0:        http://tuxx-home.at/vpn/Linux/%{name}-linux-x86_64-%{version}-k9.tar.gz
 Source1:        %{name}.bash-completion
+Source2:	%{name}-wrapper
+Source3:	%{name}.sysconfig
 Patch0:         vpnclient-linux-2.6.19.diff
 Patch1:         vpnclient-linux-2.6.22.diff
+Patch2:		http://projects.tuxx-home.at/ciscovpn/patches/vpnclient-linux-2.6.24-final.diff
+Patch3:		http://projects.tuxx-home.at/ciscovpn/patches/cisco_skbuff_offset.patch
+Patch4:		vpnclient-linux-2.6.24-makefilefix.patch
 Requires:       kmod(cisco_ipsec)
 BuildRoot:      %{_tmppath}/%{name}-%{version}
 
@@ -47,14 +53,21 @@ Kernel module for %{name}.
 
 %prep
 %setup -q -n %{name}
-%patch0 -p 1
-%patch1 -p 1
+#patch0 -p 1
+#patch1 -p 1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %install
 rm -rf %{buildroot}
 
 install -d -m 755 %{buildroot}%{_bindir}
 install -m 755 vpnclient cisco_cert_mgr ipseclog cvpnd %{buildroot}%{_bindir}
+install -m 755 vpnclient %{buildroot}%{_bindir}/vpnclient.real
+install -m 755 %{SOURCE2} %{buildroot}%{_bindir}/vpnclient
+install -d -m755 %{buildroot}/%{_sysconfdir}/sysconfig/
+install -m644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
 
 install -d -m 755 %{buildroot}%{_libdir}
 install -m 755 libvpnapi.so %{buildroot}%{_libdir}
@@ -98,7 +111,7 @@ BUILT_MODULE_NAME="cisco_ipsec"
 MAKE="/bin/true && make KERNEL_SOURCES=$kernel_source_dir"
 MODULES_CONF_ALIAS_TYPE="cipsec"
 AUTOINSTALL="YES"
-BUILD_MAX_KERNEL=2.6.23
+#BUILD_MAX_KERNEL=2.6.24
 EOF
 
 cat > README.urpmi <<EOF
@@ -110,6 +123,15 @@ The setup used here differs from default one, to achieve better FHS compliance.
 - no init script needed, kernel module is loaded on demand
 - the binaries are in %{_bindir}, and only a symlink is provided under /opt, 
   as the client hardcode cvpnd location
+
+wrapper script
+--------------
+Due to Cisco not supporting SMP kernels, and the resulting kernel hangs that
+occur for many under SMP kernels (often when using vpnclient over a wifi
+connection), a wrapper script has been included which will disable all but
+the first CPU (or core) when starting vpnclient, and enable them again when
+vpnclient exits. The behaviour of the script can be modified by editing
+%{_sysconfdir}/sysconfig/vpnclient
 EOF
 
 %clean
@@ -130,12 +152,14 @@ dkms remove -m %{name} -v %{version}-%{release} --all --rpm_safe_upgrade
 %defattr(-,root,root)
 %doc license.rtf license.txt sample.pcf README.urpmi
 %{_bindir}/vpnclient
+%{_bindir}/vpnclient.real
 %{_bindir}/cisco_cert_mgr
 %{_bindir}/ipseclog
 %attr(4775,root,root) %{_bindir}/cvpnd
 %{_libdir}/libvpnapi.so
 %{_includedir}/vpnapi.h
 %config(noreplace) %{_sysconfdir}/opt/cisco-vpnclient
+%config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %{_sysconfdir}/bash_completion.d/%{name}
 %{_var}/log/%{name}
 /opt/cisco-vpnclient
