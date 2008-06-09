@@ -168,7 +168,11 @@ dkms remove -m %{name} -v %{version}-%{release} --all --rpm_safe_upgrade
 %defattr(-,root,root)
 /usr/src/%{name}-%{version}-%{release}
 
+%if %mdkversion < 200900
 %post -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %postun -p /sbin/ldconfig
+%endif
 
