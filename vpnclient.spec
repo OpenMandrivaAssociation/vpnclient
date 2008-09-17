@@ -1,6 +1,6 @@
 %define name    vpnclient
 %define version 4.8.01.0640
-%define release %mkrel 2
+%define release %mkrel 3
 
 Name:           %{name}
 Version:        %{version}
@@ -19,7 +19,7 @@ Patch1:         vpnclient-linux-2.6.22.diff
 Patch2:		http://projects.tuxx-home.at/ciscovpn/patches/vpnclient-linux-2.6.24-final.diff
 Patch3:		http://projects.tuxx-home.at/ciscovpn/patches/cisco_skbuff_offset.patch
 Patch4:		vpnclient-linux-2.6.24-makefilefix.patch
-Requires:       kmod(cisco_ipsec)
+Requires:       kmod(vpnclient)
 BuildRoot:      %{_tmppath}/%{name}-%{version}
 
 %description
@@ -44,7 +44,6 @@ for multiple remote PCs.
 Summary:	kernel module for %{name}
 Group:		System/Kernel and hardware
 Requires:	dkms
-Provides:   kmod(cisco_ipsec)
 Requires(post):	dkms
 Requires(preun): dkms
 
