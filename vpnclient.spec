@@ -1,6 +1,6 @@
 %define name    vpnclient
 %define version 4.8.01.0640
-%define release %mkrel 3
+%define release %mkrel 4
 
 Name:           %{name}
 Version:        %{version}
@@ -20,6 +20,7 @@ Patch2:		http://projects.tuxx-home.at/ciscovpn/patches/vpnclient-linux-2.6.24-fi
 Patch3:		http://projects.tuxx-home.at/ciscovpn/patches/cisco_skbuff_offset.patch
 Patch4:		vpnclient-linux-2.6.24-makefilefix.patch
 Requires:       kmod(vpnclient)
+ExcludeArch:    x86_64 amd64
 BuildRoot:      %{_tmppath}/%{name}-%{version}
 
 %description
