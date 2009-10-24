@@ -1,6 +1,6 @@
 %define name    vpnclient
-%define version 4.8.01.0640
-%define release %mkrel 5
+%define version 4.8.02.0030
+%define release %mkrel 1
 
 Name:           %{name}
 Version:        %{version}
@@ -19,8 +19,9 @@ Patch1:         vpnclient-linux-2.6.22.diff
 Patch2:		http://projects.tuxx-home.at/ciscovpn/patches/vpnclient-linux-2.6.24-final.diff
 Patch3:		http://projects.tuxx-home.at/ciscovpn/patches/cisco_skbuff_offset.patch
 Patch4:		vpnclient-linux-2.6.24-makefilefix.patch
+Patch5:		vpnclient-interceptor.patch
 Requires:       kmod(vpnclient)
-ExcludeArch:    x86_64 amd64
+ExclusiveArch:  %ix86
 BuildRoot:      %{_tmppath}/%{name}-%{version}
 
 %description
@@ -55,9 +56,10 @@ Kernel module for %{name}.
 %setup -q -n %{name}
 #patch0 -p 1
 #patch1 -p 1
-%patch2 -p1
+#%patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p0
 
 %install
 rm -rf %{buildroot}
@@ -98,11 +100,8 @@ install -d -m 755 %{buildroot}/usr/src/%{name}-%{version}-%{release}
 install -m 644 *.c %{buildroot}/usr/src/%{name}-%{version}-%{release}
 install -m 644 *.h %{buildroot}/usr/src/%{name}-%{version}-%{release}
 install -m 644 Makefile %{buildroot}/usr/src/%{name}-%{version}-%{release}
-%ifarch x86_64 amd64 ppc64 sparc64
 install -m 755 libdriver64.so %{buildroot}/usr/src/%{name}-%{version}-%{release}
-%else
 install -m 755 libdriver.so %{buildroot}/usr/src/%{name}-%{version}-%{release}
-%endif
 cat > %{buildroot}/usr/src/%{name}-%{version}-%{release}/dkms.conf <<'EOF'
 PACKAGE_NAME="%{name}"
 PACKAGE_VERSION="%{version}-%{release}"
