@@ -1,6 +1,6 @@
 %define name    vpnclient
 %define version 4.8.02.0030
-%define release %mkrel 1
+%define release %mkrel 2
 
 Name:           %{name}
 Version:        %{version}
@@ -20,6 +20,7 @@ Patch2:		http://projects.tuxx-home.at/ciscovpn/patches/vpnclient-linux-2.6.24-fi
 Patch3:		http://projects.tuxx-home.at/ciscovpn/patches/cisco_skbuff_offset.patch
 Patch4:		vpnclient-linux-2.6.24-makefilefix.patch
 Patch5:		vpnclient-interceptor.patch
+Patch6:		vpnclient-4.8.02.0030-2.6.33.patch
 Requires:       kmod(vpnclient)
 ExclusiveArch:  %ix86
 BuildRoot:      %{_tmppath}/%{name}-%{version}
@@ -48,6 +49,7 @@ Group:		System/Kernel and hardware
 Requires:	dkms
 Requires(post):	dkms
 Requires(preun): dkms
+BuildArch:  noarch
 
 %description -n dkms-%{name}
 Kernel module for %{name}.
@@ -60,6 +62,7 @@ Kernel module for %{name}.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p0
+%patch6 -p1
 
 %install
 rm -rf %{buildroot}
