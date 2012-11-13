@@ -1,0 +1,53 @@
+--- vpnclient-4.8.02.0030/frag.c	2008-06-23 09:59:12.000000000 -0700
++++ vpnclient-4.8.02.0030.kk1/frag.c	2010-02-07 14:17:58.000000000 -0800
+@@ -1,5 +1,7 @@
+ #include <linux/version.h>
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,15)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,33)
++#include <generated/autoconf.h>
++#elif LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,15)
+ #include <linux/autoconf.h>
+ #else
+ #include <linux/config.h>
+diff -ru vpnclient-4.8.02.0030/interceptor.c vpnclient-4.8.02.0030.kk1/interceptor.c
+--- vpnclient-4.8.02.0030/interceptor.c	2009-10-23 20:51:40.000000000 -0700
++++ vpnclient-4.8.02.0030.kk1/interceptor.c	2010-02-07 14:19:51.000000000 -0800
+@@ -9,7 +9,9 @@
+ * This module implements the linux driver.
+ ***************************************************************************/
+ #include <linux/version.h>
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,15)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,33)
++#include <generated/autoconf.h>
++#elif LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,15)
+ #include <linux/autoconf.h>
+ #else
+ #include <linux/config.h>
+diff -ru vpnclient-4.8.02.0030/IPSecDrvOS_linux.c vpnclient-4.8.02.0030.kk1/IPSecDrvOS_linux.c
+--- vpnclient-4.8.02.0030/IPSecDrvOS_linux.c	2008-06-23 09:59:12.000000000 -0700
++++ vpnclient-4.8.02.0030.kk1/IPSecDrvOS_linux.c	2010-02-07 14:18:30.000000000 -0800
+@@ -12,7 +12,9 @@
+ *
+ ***************************************************************************/
+ #include <linux/version.h>
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,15)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,33)
++#include <generated/autoconf.h>
++#elif LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,15)
+ #include <linux/autoconf.h>
+ #else
+ #include <linux/config.h>
+diff -ru vpnclient-4.8.02.0030/linuxcniapi.c vpnclient-4.8.02.0030.kk1/linuxcniapi.c
+--- vpnclient-4.8.02.0030/linuxcniapi.c	2008-06-23 09:59:12.000000000 -0700
++++ vpnclient-4.8.02.0030.kk1/linuxcniapi.c	2010-02-07 14:19:14.000000000 -0800
+@@ -10,7 +10,9 @@
+  * Linux Interceptor driver.
+  ***************************************************************************/
+ #include <linux/version.h>
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,15)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,33)
++#include <generated/autoconf.h>
++#elif LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,15)
+ #include <linux/autoconf.h>
+ #else
+ #include <linux/config.h>

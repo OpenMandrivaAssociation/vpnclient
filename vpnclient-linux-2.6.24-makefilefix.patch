@@ -1,0 +1,11 @@
+--- vpnclient/Makefile.orig	2007-08-22 21:30:31.000000000 +0200
++++ vpnclient/Makefile	2008-03-22 16:39:39.000000000 +0200
+@@ -12,7 +12,7 @@
+ SOURCE_OBJS := linuxcniapi.o frag.o IPSecDrvOS_linux.o interceptor.o linuxkernelapi.o
+ 
+ ifeq ($(SUBARCH),x86_64)
+-CFLAGS += -mcmodel=kernel -mno-red-zone
++EXTRA_CFLAGS += -mcmodel=kernel -mno-red-zone
+ NO_SOURCE_OBJS := libdriver64.so
+ else
+ NO_SOURCE_OBJS := libdriver.so
