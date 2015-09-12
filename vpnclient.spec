@@ -1,6 +1,6 @@
 %define name    vpnclient
 %define version 4.8.02.0030
-%define release 3
+%define release 4
 
 Name:           %{name}
 Version:        %{version}
