@@ -14,16 +14,13 @@ Source0:        http://tuxx-home.at/vpn/Linux/%{name}-linux-x86_64-%{version}-k9
 Source1:        %{name}.bash-completion
 Source2:	%{name}-wrapper
 Source3:	%{name}.sysconfig
-Patch0:         vpnclient-linux-2.6.19.diff
-Patch1:         vpnclient-linux-2.6.22.diff
-Patch2:		http://projects.tuxx-home.at/ciscovpn/patches/vpnclient-linux-2.6.24-final.diff
+Source100:	%{name}.rpmlintrc
 Patch3:		http://projects.tuxx-home.at/ciscovpn/patches/cisco_skbuff_offset.patch
 Patch4:		vpnclient-linux-2.6.24-makefilefix.patch
 Patch5:		vpnclient-interceptor.patch
 Patch6:		vpnclient-4.8.02.0030-2.6.33.patch
 Requires:       kmod(vpnclient)
-ExclusiveArch:  %ix86
-BuildRoot:      %{_tmppath}/%{name}-%{version}
+#ExclusiveArch:  %ix86
 
 %description
 Simple to deploy and operate, the Cisco VPN Client allows organizations to
@@ -56,9 +53,6 @@ Kernel module for %{name}.
 
 %prep
 %setup -q -n %{name}
-#patch0 -p 1
-#patch1 -p 1
-#%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p0
@@ -169,12 +163,4 @@ dkms remove -m %{name} -v %{version}-%{release} --all --rpm_safe_upgrade
 %files -n dkms-%{name}
 %defattr(-,root,root)
 /usr/src/%{name}-%{version}-%{release}
-
-%if %mdkversion < 200900
-%post -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -p /sbin/ldconfig
-%endif
 

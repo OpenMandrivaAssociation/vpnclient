@@ -1,0 +1,37 @@
+# vpnclient completion
+# $Id: bash.completion,v 1.1 2003/08/07 20:51:02 flepied Exp $
+_vpnclient()
+{
+	local cur
+
+	COMPREPLY=()
+	cur=${COMP_WORDS[COMP_CWORD]}
+
+	if [[ $COMP_CWORD -eq 1 ]] ; then
+		COMPREPLY=( $( compgen -W 'connect disconnect stat notify \
+			verify autoinit' -- $cur ) )
+	else
+		prev=${COMP_WORDS[1]}
+			case $prev in
+			connect)
+				if [[ $COMP_CWORD -eq 2 ]] ; then
+					COMPREPLY=( $( compgen -W '$(command ls \
+						/etc/opt/cisco-vpnclient/Profiles \
+						| sed -e "s/.pcf//")' -- $cur ) )
+				else
+					COMPREPLY=( $( compgen -W 'user eraseuserpwd \
+						pwd nocertpwd' -- $cur ) )
+				fi
+				;;
+			stat)
+				COMPREPLY=( $( compgen -W 'reset traffic \
+					tunnel route repeat' -- $cur ) )
+				;;
+			verify)
+				COMPREPLY=( $( compgen -W 'autoinitconfig' \
+					-- $cur ) )
+				;;
+		esac
+	fi
+}
+complete -F _vpnclient vpnclient

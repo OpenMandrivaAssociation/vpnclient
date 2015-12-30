@@ -1,0 +1,12 @@
+# path to the real vpnclient binary
+#VPNCLIENTBIN=/usr/bin/vpnclient.real
+
+# path to the CPU-Hotplug facility for the second cpu. If you have a quadcore
+# system, you should set this value to "1 2 3" or something like this.
+#SMP_CPUS="1"
+
+# Whether to disable CPUs or not
+#DISABLE_SMP_CPUS=yes
+
+# Print what we are doing
+#VERBOSE=yes

@@ -1,0 +1,50 @@
+#!/bin/sh
+#Wrapper script around vpnclient to prevent kernel hang on SMP systems.
+#See http://forum.tuxx-home.at/viewtopic.php?f=15&t=457&st=0&sk=t&sd=a&start=22
+
+# path to the real vpnclient binary
+VPNCLIENTBIN=/usr/bin/vpnclient.real
+
+# path to the CPU-Hotplug facility for the second cpu. If you have a quadcore
+# system, you should set this value to "1 2 3" or something like this.
+#SMP_CPUS="1"
+MAX_CPU_NUM=`awk -F': ' '/^processor/ {numcpu=$2} END {print numcpu}' /proc/cpuinfo`
+SMP_CPUS=`seq 1 $MAX_CPU_NUM` 
+
+# Whether to disable CPUs or not
+DISABLE_SMP_CPUS=yes
+
+# Print what we are doing
+VERBOSE=yes
+
+# Source configuration to override any of the above variables
+[ -r /etc/sysconfig/vpnclient ] && . /etc/sysconfig/vpnclient
+CPUS_DISABLED=no
+
+if [ "$DISABLE_SMP_CPUS" == "yes" -a -n "$SMP_CPUS" ]
+then
+	# if a connection is to be established, switch off all other CPUs
+	if [ "$1" = "connect" ]
+	then
+		CPUS_DISABLED=yes
+		[ $VERBOSE == "yes" ] && echo "Disabling CPUs: $SMP_CPUS" || :
+		for cpu in $SMP_CPUS
+		do
+			echo 0 > /sys/devices/system/cpu/cpu$cpu/online
+		done
+	fi
+fi
+
+# start the VPN client with all given arguments
+$VPNCLIENTBIN $*
+
+# after the connection has been closed (either by hitting CTRL-C or by using a
+# separate `vpnclient disconnect` invocation, turn the CPUs back on
+if [ "$CPUS_DISABLED" == "yes" ]
+then
+	[ $VERBOSE == "yes" ] && echo "Re-enabling CPUs: $SMP_CPUS" || :
+	for cpu in $SMP_CPUS
+	do
+		echo 1 > /sys/devices/system/cpu/cpu$cpu/online
+	done
+fi

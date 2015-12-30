@@ -1,0 +1,3 @@
+# This way it works really better in this package
+addFilter("E: dir-or-file-in-opt")
+addFilter("E: devel-file-in-non-devel-package")

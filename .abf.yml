@@ -1,5 +1,5 @@
 sources:
-  "vpnclient.bash-completion:"	b782716f3b38966777b9cf16e2305045917572c1
-  "vpnclient-linux-x86_64-4.8.02.0030-k9.tar.gz:"	b9fc43136155babd5bfff79ec6d14d5498b7db97
-  "vpnclient.sysconfig:"	7a38f769974949f9fb02bc92488b76e26a98f4ac
-  "vpnclient-wrapper:"	e3b83d9dd65fa69f203e61aa3ee1bab191af09c2
+  vpnclient.bash-completion: b782716f3b38966777b9cf16e2305045917572c1
+  vpnclient-linux-x86_64-4.8.02.0030-k9.tar.gz: b9fc43136155babd5bfff79ec6d14d5498b7db97
+  vpnclient.sysconfig: 7a38f769974949f9fb02bc92488b76e26a98f4ac
+  vpnclient-wrapper: e3b83d9dd65fa69f203e61aa3ee1bab191af09c2
