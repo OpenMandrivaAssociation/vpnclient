@@ -1,17 +1,13 @@
-%define name    vpnclient
-%define version 4.8.02.0030
-%define release 4
-
-Name:           %{name}
-Version:        %{version}
-Release:        %{release}
-Summary:        Cisco VPN client
-License:        Commercial
-Group:          Networking/Other
-URL:            http://www.cisco.com/en/US/products/sw/secursw/ps2308/index.html
+Name:		vpnclient
+Version:	4.8.02.0030
+Release:	4.8.02.0030
+Summary:	Cisco VPN client
+License:	Commercial
+Group:		Networking/Other
+URL:		http://www.cisco.com/en/US/products/sw/secursw/ps2308/index.html
 # http://projects.tuxx-home.at/?id=cisco_vpn_client
-Source0:        http://tuxx-home.at/vpn/Linux/%{name}-linux-x86_64-%{version}-k9.tar.gz
-Source1:        %{name}.bash-completion
+Source0:	http://tuxx-home.at/vpn/Linux/%{name}-linux-x86_64-%{version}-k9.tar.gz
+Source1:	%{name}.bash-completion
 Source2:	%{name}-wrapper
 Source3:	%{name}.sysconfig
 Source100:	%{name}.rpmlintrc
@@ -19,7 +15,7 @@ Patch3:		http://projects.tuxx-home.at/ciscovpn/patches/cisco_skbuff_offset.patch
 Patch4:		vpnclient-linux-2.6.24-makefilefix.patch
 Patch5:		vpnclient-interceptor.patch
 Patch6:		vpnclient-4.8.02.0030-2.6.33.patch
-Requires:       kmod(vpnclient)
+Requires:	kmod(vpnclient)
 #ExclusiveArch:  %ix86
 
 %description
@@ -40,13 +36,13 @@ location. This simple and highly scalable solution is ideal for large remote
 access deployments where it is impractical to individually configure policies
 for multiple remote PCs.
 
-%package -n	dkms-%{name}
+%package -n dkms-%{name}
 Summary:	kernel module for %{name}
 Group:		System/Kernel and hardware
 Requires:	dkms
 Requires(post):	dkms
-Requires(preun): dkms
-BuildArch:  noarch
+Requires(preun):	dkms
+BuildArch:	noarch
 
 %description -n dkms-%{name}
 Kernel module for %{name}.
@@ -59,8 +55,6 @@ Kernel module for %{name}.
 %patch6 -p1
 
 %install
-rm -rf %{buildroot}
-
 install -d -m 755 %{buildroot}%{_bindir}
 install -m 755 vpnclient cisco_cert_mgr ipseclog cvpnd %{buildroot}%{_bindir}
 install -m 755 vpnclient %{buildroot}%{_bindir}/vpnclient.real
@@ -130,8 +124,6 @@ vpnclient exits. The behaviour of the script can be modified by editing
 %{_sysconfdir}/sysconfig/vpnclient
 EOF
 
-%clean
-rm -rf %{buildroot}
 
 %post -n dkms-%{name}
 dkms add     -m %{name} -v %{version}-%{release} --rpm_safe_upgrade
@@ -145,7 +137,6 @@ rmmod %{module_name} > /dev/null 2>&1 || true
 dkms remove -m %{name} -v %{version}-%{release} --all --rpm_safe_upgrade
 
 %files
-%defattr(-,root,root)
 %doc license.rtf license.txt sample.pcf README.urpmi
 %{_bindir}/vpnclient
 %{_bindir}/vpnclient.real
@@ -161,6 +152,4 @@ dkms remove -m %{name} -v %{version}-%{release} --all --rpm_safe_upgrade
 /opt/cisco-vpnclient
 
 %files -n dkms-%{name}
-%defattr(-,root,root)
 /usr/src/%{name}-%{version}-%{release}
-
