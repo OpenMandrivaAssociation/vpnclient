@@ -4,7 +4,7 @@ Release:	4.8.02.0030
 Summary:	Cisco VPN client
 License:	Commercial
 Group:		Networking/Other
-URL:		http://www.cisco.com/en/US/products/sw/secursw/ps2308/index.html
+URL:		https://www.cisco.com/en/US/products/sw/secursw/ps2308/index.html
 # http://projects.tuxx-home.at/?id=cisco_vpn_client
 Source0:	http://tuxx-home.at/vpn/Linux/%{name}-linux-x86_64-%{version}-k9.tar.gz
 Source1:	%{name}.bash-completion
